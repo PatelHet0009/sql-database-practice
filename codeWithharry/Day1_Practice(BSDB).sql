@@ -323,4 +323,86 @@ WHERE Orders.Price > 500;
 SELECT E1.EmpName AS ManagerName, E2.EmpName FROM Employees AS E1
 JOIN Employees AS E2 ON E1.EmpID = E2.ManagerID;
 
- 
+/* Display all employees and their managers. */
+SELECT E2.EmpName, E1.EmpName AS ManagerName FROM Employees AS E1
+JOIN Employees E2 ON E1.EmpID = E2.ManagerID; 
+
+/* Display employees managed by Rahul. */
+SELECT E2.EmpName, E1.EmpName AS ManagerName FROM Employees AS E1
+JOIN Employees AS E2 ON E1.EmpID = E2.ManagerID
+WHERE E2.ManagerID = '1';
+
+/* Display employees who do not have managers. */
+SELECT E1.EmpName, E2.EmpName AS ManagerName FROM Employees AS E1
+JOIN Employees AS E2 ON E1.ManagerID = E2.EmpID
+WHERE E2.ManagerID IS NULL;
+
+/* Display Ahmedabad customers ordered by age. */
+SELECT Customers.CustomerName, Customers.City, Customers.Age, Orders.OrderID, Orders.BookName FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Customers.City = 'Ahmedabad' ORDER BY Age;
+
+/* Display Gold members whose age is above 20. */
+SELECT CustomerName, Membership, Age FROM Customers WHERE Membership = 'Gold' AND Age > 20;
+
+/* Increase the age of Ahmedabad customers by 2 years. */
+UPDATE Customers SET Age = Age + 2 WHERE City = 'Ahmedabad';
+
+/* Delete customers whose membership is Bronze. */
+DELETE FROM Customers WHERE Membership = 'Bronze';
+
+/* Display customers and books using LEFT JOIN. */
+SELECT Customers.CustomerName, Orders.BookName FROM Customers LEFT JOIN 
+Orders ON Customers.CustomerID = Orders.CustomerID; 
+
+/* Display all books even if customer details are missing using RIGHT JOIN. */
+SELECT Orders.BookName, Customers.CustomerName FROM Customers 
+RIGHT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+/* Display all customers and all books using FULL OUTER JOIN. */
+SELECT Customers.CustomerName, Orders.BookName FROM Customers
+FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+/* Display employees and their managers using SELF JOIN. */
+ SELECT E1.EmpName AS ManagerName, E2.EmpName FROM Employees AS E1
+ JOIN Employees AS E2 ON E1.EmpID = E2.ManagerID;
+
+/* Display customers whose names start with 'H' and membership is Gold. */
+SELECT * FROM Customers WHERE CustomerName LIKE 'H%' AND Membership = 'Gold'; 
+
+/* Display customers whose age is even using a bitwise operator. */
+SELECT * FROM Customers WHERE (Age & 1) = 0;
+
+/* Display customers whose age is odd and membership is Gold. */
+SELECT * FROM Customers WHERE (Age & 1) = 1 AND Membership = 'Gold';
+
+/* Display customers whose age + 10 is greater than 30. */
+SELECT * FROM Customers WHERE Age + 10 > 30;
+
+/* Display customers whose age × 2 is greater than 40. */
+SELECT * FROM Customers WHERE Age * 2 > 40;
+
+/* Update all Silver members to Gold. */
+UPDATE Customers SET Membership = 'Gold' WHERE Membership = 'Silver';
+
+/* Delete customers whose age is 24. */
+DELETE FROM Customers WHERE Age = '24';
+
+/* Display all customers sorted by Membership and CustomerName. */
+SELECT * FROM Customers ORDER BY Membership, CustomerName;
+
+/* Display customers with books whose quantity is greater than 1. */
+SELECT Customers.CustomerName, Orders.Quantity, Orders.BookName FROM Customers 
+FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Orders.Quantity > 1;
+
+/* Display books costing between 500 and 700. */
+SELECT * FROM Orders WHERE Price BETWEEN 500 AND 700;
+
+/* Display customers from Ahmedabad or Surat. */
+SELECT * FROM Customers WHERE City = 'Ahmedabad' OR City = 'Surat';
+
+/* Display all customer names and their ordered books in alphabetical order. */
+SELECT Customers.CustomerName, Orders.BookName FROM Customers
+FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Orders.BookName;
